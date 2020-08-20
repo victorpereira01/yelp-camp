@@ -1,3 +1,5 @@
+<%- include("partials/header") %>
+
 <h1>This is the campgrounds page</h1>
 
 <% campgrounds.forEach((campground) => { %>
@@ -5,3 +7,5 @@
         <%= campground.name %>
     </li>
 <% }); %>
+
+<%- include("partials/footer") %>
