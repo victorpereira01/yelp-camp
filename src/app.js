@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+
 const Campground = require('./models/campground');
 
 const app = express();
@@ -15,11 +16,11 @@ app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
     res.render("landing");
-});
+}); 
 
 app.get("/campgrounds", (req, res) => {
     Campground.find({}, (err, campgrounds) => {
-        if (err) {
+        if (err) { 
             console.log(err);
         } else {
             res.render("index", { campgrounds });
