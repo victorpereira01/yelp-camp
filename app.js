@@ -1,26 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const app = express();
 const bodyParser = require('body-parser');
+const Campground = require('./models/campground');
+
+const app = express();
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).catch(error => console.log(error.message));
-
-const campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-});
-
-const Campground = mongoose.model("Campground", campgroundSchema);
-
-// Campground.create({
-//     name: "Granite Hill",
-//     image: "https://images.pexels.com/photos/45241/tent-camp-night-star-45241.jpeg?auto=compress&cs=tinysrgb&h=350",
-//     description: "This is a huge granite hill, no bathrooms, no water"
-// });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
