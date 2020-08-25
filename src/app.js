@@ -1,13 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const seedDB = require('./database/seeds');
 
 const Campground = require('./models/campground');
-const seedDB = require('./database/seeds');
 
 const app = express();
 
-seedDB();
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -15,6 +14,8 @@ mongoose.connect('mongodb://localhost:27017/yelp-camp', {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+
+seedDB();
 
 app.get("/", (req, res) => {
     res.render("landing");
@@ -54,7 +55,7 @@ app.get("/campgrounds/new", (req, res) => {
 
 app.get("/campgrounds/:id", (req, res) => {
     
-    Campground.findById(req.params.id, (err, campground) => {
+    Campground.findById(req.params.id).populate("comments").exec((err, campground) => {
         if(err) {
             console.log(err);
         } else {

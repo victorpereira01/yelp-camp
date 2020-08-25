@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const Campground = require("../models/campground");
-//const Comment = require("./models/comment");
+const mongoose = require('mongoose');
+const Campground = require('../models/campground');
+const Comment = require('../models/comment');
 
 const data = [
     {
@@ -31,15 +31,15 @@ function seedDB() {
                 if (err) console.log(err);
                 
                 //Create a comment
-                // Comment.create({
-                //     text: "This place is great, but I wish there was internet",
-                //     author: "Homer Simpsons"
-                // }, (err, comment) => {
-                //     if(err) console.log(err);
+                Comment.create({
+                    text: "This place is great, but I wish there was internet",
+                    author: "Homer Simpsons"
+                }, (err, comment) => {
+                    if(err) console.log(err);
 
-                //     campground.comments.push(comment);
-                //     campground.save();
-                // })
+                    campground.comments.push(comment);
+                    campground.save();
+                })
             })
         })
     });
