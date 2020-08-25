@@ -3,9 +3,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const Campground = require('./models/campground');
+const seedDB = require('./database/seeds');
 
 const app = express();
 
+seedDB();
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
     useUnifiedTopology: true
