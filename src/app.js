@@ -2,9 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const seedDB = require('./database/seeds');
+const passport = require('passport');
+const localStrategy = require('passport-local');
 
 const Campground = require('./models/campground');
 const Comment = require('./models/comment');
+const User = require('./models/user');
 
 const app = express();
 
@@ -19,10 +22,23 @@ app.set("view engine", "ejs");
 
 seedDB();
 
+// Passport config
+
+app.use(require('express-session')({
+    secret: 'Kyra is the cutest dog',
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 // ===================
 // Campground Routes
 // ===================
-
 app.get("/", (req, res) => {
     res.render("landing");
 });
@@ -101,5 +117,26 @@ app.post("/campgrounds/:id/comments", (req, res) => {
     })
 })
 
+
+// ===============
+// Auth Routes
+// ===============
+app.get('/register', (req, res) => {
+    res.render('register');
+})
+
+app.post('/register', (req, res) => {
+    const newUser = new User({ username: req.body.username });
+
+    User.register(newUser, req.body.password, (err, user) => {
+        if (err) {
+            console.log(err);
+            return res.render('register');
+        } 
+        passport.authenticate('local')(req, res, () => {
+            res.redirect('/campgrounds');
+        }) 
+    })
+})
 
 app.listen(3000);
