@@ -19,11 +19,16 @@ router.post('/', isLoggedIn, (req, res) => {
     const name = req.body.name;
     const image = req.body.image;
     const description = req.body.description;
+    const author = {
+        id: req.user._id,
+        username: req.user.username
+    }
 
     Campground.create({
         name,
         image,
-        description
+        description,
+        author
     }, (err, campground) => {
         if (err) {
             console.log(err);
