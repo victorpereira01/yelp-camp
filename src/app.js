@@ -24,7 +24,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(process.cwd() + "/public"));
 app.set("view engine", "ejs");
 
-seedDB();
+//seedDB();
 
 // Passport config
 app.use(require('express-session')({
