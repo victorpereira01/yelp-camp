@@ -36,6 +36,11 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use((req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+})
+
 // ===================
 // Campground Routes
 // ===================
@@ -134,10 +139,10 @@ app.post('/register', (req, res) => {
         if (err) {
             console.log(err);
             return res.render('register');
-        } 
+        }
         passport.authenticate('local')(req, res, () => {
             res.redirect('/campgrounds');
-        }) 
+        })
     })
 })
 
@@ -147,12 +152,12 @@ app.get('/login', (req, res) => {
 })
 
 // handling login logic
-app.post('/login', passport.authenticate('local', 
+app.post('/login', passport.authenticate('local',
     {
         successRedirect: '/campgrounds',
         failureRedirect: '/login'
     }), (req, res) => {
-})
+    })
 
 // handling logout logic
 app.get('/logout', (req, res) => {
@@ -162,7 +167,7 @@ app.get('/logout', (req, res) => {
 
 // middleware
 function isLoggedIn(req, res, next) {
-    if(req.isAuthenticated()) {
+    if (req.isAuthenticated()) {
         return next();
     }
     res.redirect('/login');
