@@ -117,7 +117,6 @@ app.post("/campgrounds/:id/comments", (req, res) => {
     })
 })
 
-
 // ===============
 // Auth Routes
 // ===============
@@ -153,7 +152,12 @@ app.post('/login', passport.authenticate('local',
         successRedirect: '/campgrounds',
         failureRedirect: '/login'
     }), (req, res) => {
-    
+})
+
+// handling logout logic
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.redirect('/campgrounds');
 })
 
 app.listen(3000);
