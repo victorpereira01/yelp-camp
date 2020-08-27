@@ -67,12 +67,21 @@ router.get('/:id/edit', (req, res) => {
 
 // edit a campground logic
 router.put('/:id', (req, res) => {
-    
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, (err, campground) => {
         if(err) {
             res.redirect('/campgrounds');
         } else {
             res.redirect('/campgrounds/' + req.params.id);
+        }
+    })
+})
+
+router.delete('/:id', (req, res) => {
+    Campground.findByIdAndRemove(req.params.id, (err) => {
+        if(err) {
+            res.redirect('/campgrounds');
+        } else {
+            res.redirect('/campgrounds');
         }
     })
 })
