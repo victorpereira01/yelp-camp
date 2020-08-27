@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const seedDB = require('./database/seeds');
 const passport = require('passport');
 const localStrategy = require('passport-local');
+const methodOverride = require('method-override');
 
 const campgroundRoutes = require('./routes/campgrounds');
 const commentsRoutes = require('./routes/comments');
@@ -23,6 +24,7 @@ mongoose.connect('mongodb://localhost:27017/yelp-camp', {
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(process.cwd() + "/public"));
 app.set("view engine", "ejs");
+app.use(methodOverride('_method'));
 
 //seedDB();
 
