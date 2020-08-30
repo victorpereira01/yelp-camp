@@ -5,13 +5,12 @@ const seedDB = require('./database/seeds');
 const passport = require('passport');
 const localStrategy = require('passport-local');
 const methodOverride = require('method-override');
+const flash = require('connect-flash'); 
 
 const campgroundRoutes = require('./routes/campgrounds');
 const commentsRoutes = require('./routes/comments');
 const authRoutes = require('./routes/index');
 
-const Campground = require('./models/campground');
-const Comment = require('./models/comment');
 const User = require('./models/user');
 
 const app = express();
@@ -22,9 +21,10 @@ mongoose.connect('mongodb://localhost:27017/yelp-camp', {
 }).catch(error => console.log(error.message));
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(process.cwd() + "/public"));
-app.set("view engine", "ejs");
+app.use(express.static(process.cwd() + '/public'));
+app.set('view engine', 'ejs');
 app.use(methodOverride('_method'));
+app.use(flash());
 
 //seedDB();
 
@@ -43,6 +43,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash('error');
+    res.locals.success = req.flash('success');
     next();
 })
 

@@ -8,17 +8,20 @@ module.exports = {
         if (req.isAuthenticated()) {
             await Campground.findById(req.params.id, (err, campground) => {
                 if (err) {
+                    req.flash('error', 'Campground not found');
                     res.redirect('back');
                 } else {
                     //check if the user owns the campground
                     if (campground.author.id.equals(req.user._id)) {
                         next();
                     } else {
+                        req.flash("Not allowed");
                         res.redirect('back');
                     }
                 }
             })
         } else {
+            req.flash('error', 'You need to be logged in to do that');
             res.redirect('back');
         }
     },
@@ -34,11 +37,13 @@ module.exports = {
                     if (comment.author.id.equals(req.user._id)) {
                         next();
                     } else {
+                        req.flash('error', 'Not allowed');
                         res.redirect('back');
                     }
                 }
             })
         } else {
+            req.flash('error', 'You need to be logged in to do that');
             res.redirect('back');
         }
     },
@@ -48,6 +53,7 @@ module.exports = {
         if (req.isAuthenticated()) {
             return next();
         }
+        req.flash('error', 'Please login first!');
         res.redirect('/login');
     }
 };
