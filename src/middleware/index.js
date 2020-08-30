@@ -7,7 +7,7 @@ module.exports = {
     async checkCampgroundOwnership(req, res, next) {
         if (req.isAuthenticated()) {
             await Campground.findById(req.params.id, (err, campground) => {
-                if (err) {
+                if (err || !campground) {
                     req.flash('error', 'Campground not found');
                     res.redirect('back');
                 } else {
@@ -30,7 +30,8 @@ module.exports = {
     async checkCommentOwnership(req, res, next) {
         if (req.isAuthenticated()) {
             await Comment.findById(req.params.commentId, (err, comment) => {
-                if (err) {
+                if (err || !comment) {
+                    req.flash('error', 'Comment not found');
                     res.redirect('back');
                 } else {
                     // check if the user own the comment
