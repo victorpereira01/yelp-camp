@@ -18,6 +18,7 @@ router.get('/', (req, res) => {
 // create a new campground
 router.post('/', middleware.isLoggedIn, (req, res) => {
     const name = req.body.name;
+    const price = req.body.price;
     const image = req.body.image;
     const description = req.body.description;
     const author = {
@@ -27,6 +28,7 @@ router.post('/', middleware.isLoggedIn, (req, res) => {
 
     Campground.create({
         name,
+        price,
         image,
         description,
         author
