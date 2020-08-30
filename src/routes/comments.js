@@ -65,6 +65,17 @@ router.put('/:commentId', (req, res) => {
     })
 })
 
+// comment delete
+router.delete('/:commentId', (req, res) => {
+    Comment.findByIdAndRemove(req.params.commentId, (err, comment) => {
+        if(err) {
+            res.redirect('back');
+        } else {
+            res.redirect('back');
+        }
+    })
+})
+
 // middleware
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
