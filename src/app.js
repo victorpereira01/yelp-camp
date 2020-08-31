@@ -6,6 +6,7 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const methodOverride = require('method-override');
 const flash = require('connect-flash'); 
+const cors = require('cors');
 
 const campgroundRoutes = require('./routes/campgrounds');
 const commentsRoutes = require('./routes/comments');
@@ -15,11 +16,14 @@ const User = require('./models/user');
 
 const app = express();
 
-mongoose.connect('mongodb+srv://admin:yelpcamp123@cluster0.k9jaf.mongodb.net/yelpcamp?retryWrites=true&w=majority', {
+const MONGODB_URL = process.env.MONGODB_URL;
+
+mongoose.connect(MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).catch(error => console.log(error.message));
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(process.cwd() + '/public'));
 app.set('view engine', 'ejs');
