@@ -17,6 +17,7 @@ const User = require('./models/user');
 const app = express();
 
 const MONGODB_URL = process.env.MONGODB_URL;
+const PORT = process.env.PORT || 3000;
 
 mongoose.connect(MONGODB_URL, {
     useNewUrlParser: true,
@@ -58,4 +59,4 @@ app.use('/', authRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/comments', commentsRoutes);
 
-app.listen(3000);
+app.listen(PORT, process.env.IP);
