@@ -15,7 +15,7 @@ const User = require('./models/user');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/yelp-camp', {
+mongoose.connect('mongodb+srv://admin:yelpcamp123@cluster0.k9jaf.mongodb.net/yelpcamp?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }).catch(error => console.log(error.message));
